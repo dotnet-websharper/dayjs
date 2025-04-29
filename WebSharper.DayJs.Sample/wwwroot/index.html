@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebSharper.DayJs.Sample</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Content/WebSharper.DayJs.Sample.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+    </style>
+    <script type="module" src="Content/WebSharper.DayJs.Sample.head.js"></script>
+</head>
+<body>
+    <h1>Day.js Example</h1>
+    <div id="main" ws-children-template="Main">
+
+        <button ws-onclick="ShowNow">Show Current Time</button>
+        <button ws-onclick="Add7Days">Add 7 Days</button>
+        <button ws-onclick="ShowFormatted">Formatted Date</button>
+        <button ws-onclick="DaysUntil2026">Days Until 2026</button>
+        <button ws-onclick="ShowUTCNow">Show UTC Time</button>
+
+        <p>${Result}</p>
+
+    </div>
+    <script type="module" src="Content/WebSharper.DayJs.Sample.min.js"></script>
+</body>
+</html>

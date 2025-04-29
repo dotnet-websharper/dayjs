@@ -10,46 +10,63 @@ module Definition =
         Class "Dayjs"
         |> ImportDefault "dayjs"
 
-    let UniTypeFields = [
-        // UnitTypeLong
-        "millisecond"; "second"; "minute"; "hour"; "day"; "month"; "year"; "date";
-        // UnitTypeLongPlural
-        "milliseconds"; "seconds"; "minutes"; "hours"; "days"; "months"; "years"; "dates";
-        // UnitTypeShort
-        "d"; "D"; "M"; "y"; "h"; "m"; "s"; "ms"
-    ]
+    let UnitType = T<string>
 
-    let UnitType =
-        Pattern.EnumStrings "UnitType" UniTypeFields
-        |> Import "UnitType" "dayjs"
+    let OpUnitType = T<string>
 
-    let OpUnitType =
-        Pattern.EnumStrings "OpUnitType" (
-            [ 
-                "week"; "weeks"; "w";
-            ] @ UniTypeFields
-        )
-        |> Import "OpUnitType" "dayjs"
+    let QUnitType = T<string>
 
-    let QUnitType =
-        Pattern.EnumStrings "QUnitType" (
-            [ 
-                "quarter"; "quarters"; "Q" 
-            ] @ UniTypeFields
-        )
-        |> Import "QUnitType" "dayjs"
+    let ObjectSupport =
+        Pattern.Config "ObjectSupport" {
+            Required = []
+            Optional = [
+                "years", T<string> + T<int>
+                "year", T<string> + T<int>
+                "y", T<string> + T<int>
+
+                "months", T<string> + T<int>
+                "month", T<string> + T<int>
+                "M", T<string> + T<int>
+
+                "days", T<string> + T<int>
+                "day", T<string> + T<int>
+                //"d", T<string> + T<int>
+
+                "dates", T<string> + T<int>
+                "date", T<string> + T<int>
+                "D", T<string> + T<int>
+
+                "hours", T<string> + T<int>
+                "hour", T<string> + T<int>
+                "h", T<string> + T<int>
+
+                "minutes", T<string> + T<int>
+                "minute", T<string> + T<int>
+                "m", T<string> + T<int>
+
+                "seconds", T<string> + T<int>
+                "second", T<string> + T<int>
+                "s", T<string> + T<int>
+
+                "milliseconds", T<string> + T<int>
+                "millisecond", T<string> + T<int>
+                "ms", T<string> + T<int>
+            ]
+        }
+
 
     let ConfigTypeMap =
-        Pattern.Config "FormatObject" {
+        Pattern.Config "ConfigTypeMap" {
             Required = []
             Optional = [
                 "default", T<string> + T<float> + T<Date> + Dayjs + T<unit>
                 "arraySupport", !| (!?T<int>)
                 "bigIntSupport", T<BigInt>
+                "objectSupport", ObjectSupport.Type + T<obj>
             ]
         }
 
-    let ConfigType = T<string>
+    let ConfigType = T<string> + T<float> + T<Date> + Dayjs + T<unit>
 
     let FormatObject =
         Pattern.Config "FormatObject" {
@@ -64,39 +81,40 @@ module Definition =
 
     let OptionType = FormatObject+ T<string> + !|T<string>
 
-    let Locale =
-        let FormatKeys =
-            Pattern.Config "FormatKeys" {
-                Required = []
-                Optional = [
-                    "LT", T<string>
-                    "LTS", T<string>
-                    "L", T<string>
-                    "LL", T<string>
-                    "LLL", T<string>
-                    "LLLL", T<string>
-                ]
-            }
+    let FormatKeys =
+        Pattern.Config "FormatKeys" {
+            Required = []
+            Optional = [
+                "LT", T<string>
+                "LTS", T<string>
+                "L", T<string>
+                "LL", T<string>
+                "LLL", T<string>
+                "LLLL", T<string>
+            ]
+        }
 
-        let RelativeTimeKeys =
-            Pattern.Config "RelativeTimeKeys" {
-                Required = []
-                Optional = [
-                    "future", T<string>
-                    "past", T<string>
-                    "s", T<string>
-                    "m", T<string>
-                    "mm", T<string>
-                    "h", T<string>
-                    "hh", T<string>
-                    "d", T<string>
-                    "dd", T<string>
-                    "M", T<string>
-                    "MM", T<string>
-                    "y", T<string>
-                    "yy", T<string>
-                ]
-            }
+    let RelativeTimeKeys =
+        Pattern.Config "RelativeTimeKeys" {
+            Required = []
+            Optional = [
+                "future", T<string>
+                "past", T<string>
+                "s", T<string>
+                "m", T<string>
+                "mm", T<string>
+                "h", T<string>
+                "hh", T<string>
+                "d", T<string>
+                "dd", T<string>
+                // "M" is missing here
+                // "MM" is missing here
+                "y", T<string>
+                "yy", T<string>
+            ]
+        }
+
+    let Locale =       
 
         Pattern.Config "Locale" {
             Required = []
@@ -110,20 +128,14 @@ module Definition =
                 "weekdaysMin", !| T<string>
                 "ordinal", T<int>?n ^-> (T<int> + T<string>)
                 "formats", FormatKeys.Type
-                "relativeTime", RelativeTimeKeys.Type
+                "relativeTime", RelativeTimeKeys.Type + T<obj>
             ]
         }
         |> Import "Locale" "dayjs"
 
-    let ManipulateType =
-        Pattern.EnumStrings "ManipulateType" [
-            "millisecond"; "second"; "minute"; "hour"; "day"; "month"; "year";
-            "milliseconds"; "seconds"; "minutes"; "hours"; "days"; "months"; "years";
-            "d"; "D"; "M"; "y"; "h"; "m"; "s"; "ms"
-        ]
-        |> Import "ManipulateType" "dayjs"
+    let ManipulateType = T<string>
 
-    let PluginFunc = T<obj>?option * !?T<obj>?c * !?T<obj>?d ^-> T<unit>
+    let PluginFunc = T<obj>
 
     let PluginOptions =
         Pattern.Config "PluginOptions" {
@@ -147,13 +159,7 @@ module Definition =
             ]
         }
 
-    let DurationUnitType = 
-        Pattern.EnumStrings "DurationUnitType" [ 
-            "week"; "weeks"; "w";
-            "millisecond"; "second"; "minute"; "hour"; "day"; "month"; "year"; 
-            "milliseconds"; "seconds"; "minutes"; "hours"; "days"; "months"; "years";
-            "d"; "D"; "M"; "y"; "h"; "m"; "s"; "ms"
-        ] 
+    let DurationUnitType = T<string>
 
     let Duration =
         Class "Duration" 
@@ -167,12 +173,7 @@ module Definition =
         CreateDurationType +
         (Duration?duration ^-> Duration)
 
-    let ISOUnitType = 
-        Pattern.EnumStrings "ISOUnitType" (
-            [ 
-                "week"; "weeks"; "w"; "isoWeek"
-            ] @ UniTypeFields
-        )
+    let ISOUnitType = T<string>
 
     let WeekdayNames = T<string>
     let MonthNames = T<string>
@@ -209,9 +210,52 @@ module Definition =
             ]
         }
 
+    let RelativeTimeThreshold =
+        Pattern.Config "RelativeTimeThreshold" {
+            Required = []
+            Optional = [
+                "l", T<string>
+                "r", T<int>
+                "d", T<string>
+            ]
+        }
+
+    let RelativeTimeOptions =
+        Pattern.Config "RelativeTimeOptions" {
+            Required = []
+            Optional = [
+                "rounding", T<int>?num ^-> T<int>
+                "thresholds", !| RelativeTimeThreshold.Type
+            ]
+        }
+
+    let DayjsTimezone =
+        Class "DayjsTimezone"
+        |+> Static [
+            Constructor (!?ConfigType?date * !?T<string>?format * !?T<string>?timezone ^-> Dayjs)
+        ]
+        |+> Pattern.OptionalFields [            
+            "guess", T<unit> ^-> T<string>
+            "setDefault", T<string>?timezone ^-> T<unit>
+        ]
+
+    let DayjsObject =
+        Pattern.Config "DayjsObject" {
+            Required = [
+                "years", T<int>
+                "months", T<int>
+                "date", T<int>
+                "hours", T<int>
+                "minutes", T<int>
+                "seconds", T<int>
+                "milliseconds", T<int>
+            ]
+            Optional = []
+        }
+
     let Plugins = 
         Class "Plugins"
-        |+> Instance [
+        |+> Static [
             "advancedFormat" =? PluginFunc
             |> ImportDefault "dayjs/plugin/advancedFormat"
 
@@ -322,7 +366,6 @@ module Definition =
 
             "weekday" =? PluginFunc
             |> ImportDefault "dayjs/plugin/weekday"
-
         ]
 
     Duration
@@ -404,6 +447,33 @@ module Definition =
             "localeData" => T<unit> ^-> GlobalLocaleDataReturn
             |> WithComment "Add `localeData` plugin to use `localeData` function"
 
+            // minMax plugin
+            "max" => (!| (!|Dayjs))?dayjs ^-> Dayjs
+            |> WithComment "Add `minMax` plugin to use `max` function"
+            "max" => (!| T<obj>)?noDates ^-> T<unit>
+            |> WithComment "Add `minMax` plugin to use `max` function"
+            "max" =>  (!|Dayjs)?maybeDates ^-> Dayjs
+            |> WithComment "Add `minMax` plugin to use `max` function"
+
+            "min" => (!| (!|Dayjs))?dayjs ^-> Dayjs
+            |> WithComment "Add `minMax` plugin to use `min` function"
+            "min" => (!| T<obj>)?noDates ^-> T<unit>
+            |> WithComment "Add `minMax` plugin to use `min` function"
+            "min" =>  (!|Dayjs)?maybeDates ^-> Dayjs
+            |> WithComment "Add `minMax` plugin to use `min` function"
+
+            // timezone plugin
+            "tz" =@ DayjsTimezone
+            |> WithComment "Add `timezone` plugin to use `tz` function"
+
+            // updateLocale plugin
+            "updateLocale" => T<string>?localeName * T<obj>?customConfig ^-> T<obj>
+            |> WithComment "Add `updateLocale` plugin to use `updateLocale` function"
+
+            // utc plugin
+            "utcStatic" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
+            //|> WithInline "$utc()"
+            |> WithComment "Add `utc` plugin to use `utc` function"
         ]
         |+> Instance [
             "clone" => T<unit> ^-> TSelf
@@ -439,8 +509,8 @@ module Definition =
 
             "add" => (T<float>?value * !?ManipulateType?unit) ^-> TSelf
             "subtract" => (T<float>?value * !?UnitType?unit) ^-> TSelf
-            "startOf" => OpUnitType?unit ^-> TSelf
-            "endOf" => OpUnitType?unit ^-> TSelf
+            "startOf" => (OpUnitType + ISOUnitType + QUnitType)?unit ^-> TSelf
+            "endOf" => (OpUnitType + ISOUnitType + QUnitType)?unit ^-> TSelf
 
             "format" => !?T<string>?template ^-> T<string>
 
@@ -456,9 +526,9 @@ module Definition =
 
             "utcOffset" => T<unit> ^-> T<int>
 
-            "isBefore" => (!?ConfigType?date * !?OpUnitType?unit) ^-> T<bool>
-            "isSame" => (!?ConfigType?date * !?OpUnitType?unit) ^-> T<bool>
-            "isAfter" => (!?ConfigType?date * !?OpUnitType?unit) ^-> T<bool>
+            "isBefore" => (!?ConfigType + T<obj>)?date * !?(OpUnitType + ISOUnitType)?unit ^-> T<bool>
+            "isSame" => (!?ConfigType + T<obj>)?date * !?(OpUnitType + ISOUnitType)?unit ^-> T<bool>
+            "isAfter" => (!?ConfigType + T<obj>)?date * !?(OpUnitType + ISOUnitType)?unit ^-> T<bool>
 
             "locale" => T<unit> ^-> T<string>
             "locale" => (T<string> + Locale)?preset * !?Locale?object ^-> TSelf
@@ -523,21 +593,6 @@ module Definition =
             "isoWeekday" => T<int>?value ^-> TSelf
             |> WithComment "Add `isoWeek` plugin to use `isoWeekday` function"
 
-            "startOf" => ISOUnitType?unit ^-> TSelf
-            |> WithComment "Add `isoWeek` plugin to use `startOf` function"
-
-            "endOf" => ISOUnitType?unit ^-> TSelf
-            |> WithComment "Add `isoWeek` plugin to use `endOf` function"
-
-            "isSame" => !?T<obj>?date * !?ISOUnitType?unit ^-> T<bool>
-            |> WithComment "Add `isoWeek` plugin to use `isSame` function"
-
-            "isBefore" => !?T<obj>?date * !?ISOUnitType?unit ^-> T<bool>
-            |> WithComment "Add `isoWeek` plugin to use `isBefore` function"
-
-            "isAfter" => !?T<obj>?date * !?ISOUnitType?unit ^-> T<bool>
-            |> WithComment "Add `isoWeek` plugin to use `isAfter` function"
-
             // isoWeeksInYear plugin
             "isoWeeksInYear" => T<unit> ^-> T<int>
             |> WithComment "Add `isoWeeksInYear` plugin to use `isoWeeksInYear` function"
@@ -545,12 +600,162 @@ module Definition =
             // localeData plugin
             "localeData" => T<unit> ^-> InstanceLocaleDataReturn
             |> WithComment "Add `localeData` plugin to use `localeData` function"
+
+            // objectSupport methods
+            "set" => T<obj>?argument ^-> Dayjs
+            |> WithComment "Add `objectSupport` plugin to use `set` function"
+
+            "add" => T<obj>?argument ^-> Dayjs
+            |> WithComment "Add `objectSupport` plugin to use `add` function"
+
+            "subtract" => T<obj>?argument ^-> Dayjs
+            |> WithComment "Add `objectSupport` plugin to use `subtract` function"
+
+            // pluralGetSet plugin
+            "years" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `years` function"
+            "years" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `years` function"
+
+            "months" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `months` function"
+            "months" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `months` function"
+
+            "dates" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `dates` function"
+            "dates" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `dates` function"
+
+            "weeks" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `weeks` function"
+            "weeks" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `weeks` function"
+
+            "days" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `days` function"
+            "days" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `days` function"
+
+            "hours" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `hours` function"
+            "hours" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `hours` function"
+
+            "minutes" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `minutes` function"
+            "minutes" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `minutes` function"
+
+            "seconds" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `seconds` function"
+            "seconds" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `seconds` function"
+
+            "milliseconds" => T<unit> ^-> T<int>
+            |> WithComment "Add `pluralGetSet` plugin to use `milliseconds` function"
+            "milliseconds" => T<int>?value ^-> TSelf
+            |> WithComment "Add `pluralGetSet` plugin to use `milliseconds` function"
+
+            // quarterOfYear plugin
+            "quarter" => T<unit> ^-> T<int>
+            |> WithComment "Add `quarterOfYear` plugin to support `quarter` function"
+            "quarter" => T<int>?quarter ^-> TSelf
+            |> WithComment "Add `quarterOfYear` plugin to support `quarter` function"
+
+            "add" => T<int>?value * QUnitType?unit ^-> TSelf
+            |> WithComment "Add `quarterOfYear` plugin to support `add` function"
+
+            "subtract" => T<int>?value * QUnitType?unit ^-> TSelf
+            |> WithComment "Add `quarterOfYear` plugin to support `subtract` function"
+
+            "isSame" => ConfigType?date * QUnitType?unit ^-> T<bool>
+            |> WithComment "Add `quarterOfYear` plugin to support `isSame` function"
+
+            "isBefore" => ConfigType?date * QUnitType?unit ^-> T<bool>
+            |> WithComment "Add `quarterOfYear` plugin to support `isBefore` function"
+
+            "isAfter" => ConfigType?date * QUnitType?unit ^-> T<bool>
+            |> WithComment "Add `quarterOfYear` plugin to support `isAfter` function"
+
+            // relativeTime plugin
+            "fromNow" => !?T<bool>?withoutSuffix ^-> T<string>
+            |> WithComment "Add `relativeTime` plugin to use `fromNow` function"
+
+            "from" => ConfigType?compared * !?T<bool>?withoutSuffix ^-> T<string>
+            |> WithComment "Add `relativeTime` plugin to use `from` function"
+
+            "toNow" => !?T<bool>?withoutSuffix ^-> T<string>
+            |> WithComment "Add `relativeTime` plugin to use `toNow` function"
+
+            "to" => ConfigType?compared * !?T<bool>?withoutSuffix ^-> T<string>
+            |> WithComment "Add `relativeTime` plugin to use `to` function"
+
+            // timezone plugin
+            "tz" => !?T<string>?timezone * !?T<bool>?keepLocalTime ^-> TSelf
+            |> WithComment "Add `timezone` plugin to use `tz` function"
+
+            "offsetName" => !?T<string>?``type`` ^-> T<string>
+            |> WithComment "Add `timezone` plugin to use `offsetName` function"
+
+            // toArray plugin
+            "toArray" => T<unit> ^-> T<int[]>
+            |> WithComment "Add `toArray` plugin to use `toArray` function"
+
+            // toObject plugin
+            "toObject" => T<unit> ^-> DayjsObject
+            |> WithComment "Add `toObject` plugin to use `toObject` function"
+
+            // utc plugin
+            "utc" => !?T<bool>?keepLocalTime ^-> TSelf
+            |> WithComment "Add `utc` plugin to use `utc` function"
+
+            "local" => T<unit> ^-> TSelf
+            |> WithComment "Add `utc` plugin to use `local` function"
+
+            "isUTC" => T<unit> ^-> T<bool>
+            |> WithComment "Add `utc` plugin to use `isUTC` function"
+
+            "utcOffset" => (T<int> + T<string>)?offset * !?T<bool>?keepLocalTime ^-> TSelf
+            |> WithComment "Add `utc` plugin to use `utcOffset` function"
+
+            // weekOfYear plugin
+            "week" => T<unit> ^-> T<int>
+            |> WithComment "Add `weekOfYear` plugin to use `week` getter function"
+            "week" => T<int>?value ^-> TSelf
+            |> WithComment "Add `weekOfYear` plugin to use `week` setter function"
+
+            // weekYear plugin
+            "weekYear" => T<unit> ^-> T<int>
+            |> WithComment "Add `weekYear` plugin to use `weekYear` function"
+
+            // weekDay plugin
+            "weekday" => T<unit> ^-> T<int>
+            |> WithComment "Add `weekDay` plugin to use `weekday` getter function"
+            "weekday" => T<int>?value ^-> TSelf
+            |> WithComment "Add `weekDay` plugin to use `weekday` setter function"
+
+
         ]
         |> ignore
 
     let Assembly =
         Assembly [
             Namespace "WebSharper.DayJs" [
+                Plugins
+                GlobalLocaleDataReturn
+                InstanceLocaleDataReturn
+                Duration
+                DurationUnitsObjectType
+                PluginOptions
+                Locale
+                FormatObject
+                ConfigTypeMap
+                Dayjs
+                RelativeTimeKeys
+                FormatKeys
+                DayjsTimezone
+                DayjsObject
             ]
         ]
 

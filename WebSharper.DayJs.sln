@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.DayJs", "WebSharper.DayJs\WebSharper.DayJs.fsproj", "{874BF080-1C1A-4E3D-A57D-DA978C133DFD}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.DayJs.Sample", "WebSharper.DayJs.Sample\WebSharper.DayJs.Sample.fsproj", "{81D87A08-8308-453F-968E-14D6E844F7F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{874BF080-1C1A-4E3D-A57D-DA978C133DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{874BF080-1C1A-4E3D-A57D-DA978C133DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{874BF080-1C1A-4E3D-A57D-DA978C133DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D87A08-8308-453F-968E-14D6E844F7F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D87A08-8308-453F-968E-14D6E844F7F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D87A08-8308-453F-968E-14D6E844F7F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D87A08-8308-453F-968E-14D6E844F7F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
