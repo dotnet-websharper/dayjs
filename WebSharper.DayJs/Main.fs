@@ -469,11 +469,10 @@ module Definition =
             // updateLocale plugin
             "updateLocale" => T<string>?localeName * T<obj>?customConfig ^-> T<obj>
             |> WithComment "Add `updateLocale` plugin to use `updateLocale` function"
-
             // utc plugin
-            //"utc" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
-            //|> WithInline "$utc()"
-            //|> WithComment "Add `utc` plugin to use `utc` function"
+            "utcStatic" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
+            |> WithInline "$imported.utc($config,$format,$strict)"
+            |> WithComment "Add `utc` plugin to use `utc` function"
             // need fix the static and instance name crashes
         ]
         |+> Instance [
