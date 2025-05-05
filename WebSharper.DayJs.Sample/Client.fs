@@ -44,7 +44,7 @@ module Client =
             .DaysUntil2026(fun _ -> daysUntil2026(today))
             .ShowUTCNow(fun _ -> 
                 Dayjs.Extend(Plugins.Utc) |> ignore
-                let utcNow = Dayjs().Utc()
+                let utcNow = Dayjs.UtcStatic()
 
                 result := $"Current UTC Time: {utcNow} UTC"
             ) 

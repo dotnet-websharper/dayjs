@@ -471,9 +471,10 @@ module Definition =
             |> WithComment "Add `updateLocale` plugin to use `updateLocale` function"
 
             // utc plugin
-            "utcStatic" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
+            //"utc" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
             //|> WithInline "$utc()"
-            |> WithComment "Add `utc` plugin to use `utc` function"
+            //|> WithComment "Add `utc` plugin to use `utc` function"
+            // need fix the static and instance name crashes
         ]
         |+> Instance [
             "clone" => T<unit> ^-> TSelf
