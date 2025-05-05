@@ -470,8 +470,8 @@ module Definition =
             "updateLocale" => T<string>?localeName * T<obj>?customConfig ^-> T<obj>
             |> WithComment "Add `updateLocale` plugin to use `updateLocale` function"
             // utc plugin
-            "utcStatic" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
-            |> WithSourceName "utc"
+            "utc" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
+            |> WithSourceName "UtcStatic"
             |> WithComment "Add `utc` plugin to use `utc` function"
             // need fix the static and instance name crashes
         ]
