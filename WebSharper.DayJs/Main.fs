@@ -471,7 +471,7 @@ module Definition =
             |> WithComment "Add `updateLocale` plugin to use `updateLocale` function"
             // utc plugin
             "utcStatic" => !?ConfigType?config * !?T<string>?format * !?T<bool>?strict ^-> TSelf
-            |> WithInline "$imported.utc($config,$format,$strict)"
+            |> WithSourceName "utc"
             |> WithComment "Add `utc` plugin to use `utc` function"
             // need fix the static and instance name crashes
         ]
