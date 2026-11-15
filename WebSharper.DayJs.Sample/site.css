@@ -1,0 +1,200 @@
+:root {
+    color-scheme: light;
+
+    --bg: #f6f8fa;
+    --bg-elevated: #ffffff;
+    --bg-code: #f0f3f6;
+    --text: #1c2530;
+    --text-muted: #5b6b7c;
+    --border: #d8dee6;
+    --accent: #2f855a;
+    --accent-strong: #276749;
+    --accent-soft: #e6f4ea;
+    --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --bg: #0f1419;
+    --bg-elevated: #161d24;
+    --bg-code: #11181f;
+    --text: #e6edf3;
+    --text-muted: #9aa7b4;
+    --border: #2a343d;
+    --accent: #4ade80;
+    --accent-strong: #86efac;
+    --accent-soft: #16301f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+a {
+    color: var(--accent);
+}
+
+code {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    background: var(--bg-code);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem clamp(1rem, 5vw, 3rem);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-elevated);
+}
+
+.app-titles h1 {
+    margin: 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+}
+
+.app-titles p {
+    margin: 0.2rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.app-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.app-source {
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.app-source:hover {
+    border-bottom-color: var(--accent);
+}
+
+.page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 2rem clamp(1rem, 5vw, 3rem) 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.notice {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    background: var(--accent-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+.card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 1.4rem 1.5rem 1.5rem;
+}
+
+.card-header h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+}
+
+.card-header p {
+    margin: 0 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    appearance: none;
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+}
+
+:root[data-theme="dark"] .btn-primary {
+    color: #07120b;
+}
+
+.theme-toggle {
+    min-width: 9.5rem;
+    text-align: center;
+}
+
+.report {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    min-height: 3.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none;
+    }
+}

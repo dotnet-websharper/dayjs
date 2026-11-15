@@ -1,0 +1,21 @@
+type file
+id WebSharper.DayJs
+authors
+    IntelliFactory
+owners
+    IntelliFactory
+repositoryType git
+repositoryUrl https://github.com/dotnet-websharper/dayjs/
+licenseUrl https://github.com/dotnet-websharper/dayjs/blob/main/LICENSE.md
+iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
+projectUrl https://github.com/dotnet-websharper/dayjs
+description
+    WebSharper bindings for Day.js 1.11.x (1.11.23+)
+tags
+    Web JavaScript F# C# Date Time dayjs
+files
+    ../WebSharper.DayJs/bin/Release/netstandard2.0/WebSharper.DayJs.dll ==> lib/netstandard2.0
+    ../WebSharper.DayJs/bin/Release/netstandard2.0/WebSharper.DayJs.websharper ==> lib/netstandard2.0
+    ../WebSharper.DayJs/bin/Release/netstandard2.0/WebSharper.DayJs.xml ==> lib/netstandard2.0
+dependencies
+        WebSharper ~> LOCKEDVERSION:[3]

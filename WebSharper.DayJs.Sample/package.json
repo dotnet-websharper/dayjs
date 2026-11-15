@@ -1,16 +1,13 @@
 {
   "name": "websharper.dayjs.sample",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": true,
+  "description": "WebSharper.DayJs sample — Day.js bindings for F#",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   },
   "dependencies": {
-    "dayjs": "^1.11.13",
-    "vite": "^6.3.3"
+    "dayjs": "^1.11.23"
   }
 }
