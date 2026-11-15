@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSharper.DayJs — sample</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%232f855a'/%3E%3Cpath d='M4 5h8v6H4z' fill='white'/%3E%3Cpath d='M6 8h4' stroke='%232f855a'/%3E%3C/svg%3E" />
+    <script>
+        // Apply a previously chosen theme before first paint. Light is the
+        // default; the key is shared with Client.fs (themeStorageKey).
+        try {
+            var t = localStorage.getItem('websharper-dayjs-theme');
+            if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { }
+    </script>
+    <link rel="stylesheet" href="site.css" />
+    <!-- Day.js is bundled from the npm package; the WebSharper head is folded in here. -->
+    <!-- ws-head -->
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-titles">
+            <h1>WebSharper.DayJs</h1>
+            <p>Day.js bindings for F# — with <a href="https://websharper.com">WebSharper</a></p>
+        </div>
+        <div class="app-actions">
+            <button class="btn theme-toggle" ws-onclick="ToggleTheme" title="Switch between the light and dark theme">
+                <span>${themeLabel}</span>
+            </button>
+            <a class="app-source" href="https://github.com/dotnet-websharper/dayjs">Source</a>
+        </div>
+    </header>
+
+    <main class="page">
+        <p class="notice">${notice}</p>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Parse &amp; format</h2>
+                <p>
+                    <code>Dayjs(...)</code> parses a date from a string, a format
+                    string, a Unix timestamp or another <code>Dayjs</code> value;
+                    <code>Format(...)</code> turns it back into text.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="ParseNow">Now</button>
+                <button class="btn" ws-onclick="ParseCustom">Custom format</button>
+                <button class="btn" ws-onclick="FormatPatterns">Format patterns</button>
+            </div>
+            <pre class="report">${parseReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Manipulate</h2>
+                <p>
+                    Day.js objects are immutable: <code>Add</code>,
+                    <code>Subtract</code>, <code>StartOf</code>, <code>EndOf</code>,
+                    <code>Set</code> and the plural getters from the
+                    <code>pluralGetSet</code> plugin all return a new object.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="AddSubtract">Add / subtract</button>
+                <button class="btn" ws-onclick="StartEnd">Start / end of</button>
+                <button class="btn" ws-onclick="SetGet">Set / get</button>
+                <button class="btn" ws-onclick="PluralQuarter">Plurals &amp; quarter</button>
+            </div>
+            <pre class="report">${manipulateReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Query</h2>
+                <p>
+                    Comparisons with a unit granularity, plus the
+                    <code>isBetween</code>, <code>isSameOrAfter</code>,
+                    <code>isSameOrBefore</code>, <code>isToday</code>,
+                    <code>isTomorrow</code> and <code>isYesterday</code> plugins.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunQueries">Run comparisons</button>
+            </div>
+            <pre class="report">${queryReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Difference &amp; relative time</h2>
+                <p>
+                    <code>Diff</code> returns the difference in a unit (or in
+                    milliseconds), and the <code>relativeTime</code> plugin adds
+                    <code>FromNow</code>, <code>ToNow</code>, <code>From</code> and
+                    <code>To</code>.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunDiff">Differences</button>
+                <button class="btn" ws-onclick="RunRelative">Relative time</button>
+            </div>
+            <pre class="report">${diffReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>UTC &amp; timezones</h2>
+                <p>
+                    The <code>utc</code> and <code>timezone</code> plugins add
+                    <code>Utc</code>, <code>Local</code>, <code>IsUTC</code>,
+                    <code>UtcOffset</code>, <code>Tz</code>,
+                    <code>TzStatic</code>, <code>TzGuess</code> and
+                    <code>OffsetName</code>. Timezones come from the browser's
+                    <code>Intl</code> data.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunUtc">UTC</button>
+                <button class="btn" ws-onclick="RunTimezone">Timezones</button>
+            </div>
+            <pre class="report">${zoneReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Locales</h2>
+                <p>
+                    <code>Locale</code>, the <code>localeData</code> plugin
+                    (<code>Weekdays</code>, <code>Months</code>,
+                    <code>LocaleData</code>), the <code>Ls</code> registry and the
+                    <code>updateLocale</code> plugin.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunLocale">Switch to French</button>
+                <button class="btn" ws-onclick="RunLocaleData">Locale data</button>
+                <button class="btn" ws-onclick="RunUpdateLocale">Update a locale</button>
+            </div>
+            <pre class="report">${localeReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Durations</h2>
+                <p>
+                    The <code>duration</code> plugin: <code>Dayjs.Duration(...)</code>,
+                    <code>Humanize</code>, <code>AsMinutes</code>,
+                    <code>Format</code>, <code>ToISOString</code> and
+                    <code>Add</code>/<code>Subtract</code>.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunDuration">Run durations</button>
+            </div>
+            <pre class="report">${durationReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Objects, arrays &amp; min/max</h2>
+                <p>
+                    The <code>objectSupport</code>, <code>arraySupport</code>,
+                    <code>toObject</code>, <code>toArray</code> and
+                    <code>minMax</code> plugins.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunObjects">Run</button>
+            </div>
+            <pre class="report">${objectReport}</pre>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Type checks, calendar &amp; installed plugins</h2>
+                <p>
+                    <code>IsDayjs</code>, <code>IsMoment</code>,
+                    <code>IsDuration</code>, the <code>calendar</code> plugin and
+                    the list of plugins the sample installs with
+                    <code>Extend</code>.
+                </p>
+            </header>
+            <div class="toolbar">
+                <button class="btn btn-primary" ws-onclick="RunPlugins">Run</button>
+            </div>
+            <pre class="report">${pluginReport}</pre>
+        </section>
+    </main>
+
+    <script type="text/javascript" src="Scripts/WebSharper.DayJs.Sample.min.js"></script>
+</body>
+</html>
